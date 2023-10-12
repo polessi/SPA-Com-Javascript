@@ -1,6 +1,10 @@
 
 /* BASIC */
 
+.equal-width{
+  width: 50%;
+}
+
 a {
   color: #92badd;
   display:inline-block;
