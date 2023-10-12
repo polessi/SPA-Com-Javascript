@@ -11,6 +11,9 @@ function loadContent() {
     } else if (path === 'cadastro') {
         console.log('cadastro');
         loadHTML('pages/cadastro/index.html', contentDiv);
+    } else if (path === 'listagem') {
+        console.log('listagem');
+        loadHTML('pages/listagem/index.html', contentDiv);
     } else {
         contentDiv.innerHTML = '<h1>Página não encontrada</h1>';
     }
@@ -39,15 +42,23 @@ document.addEventListener('click', (event) => {
         loadContent();
     }
 
+    if (event.target.id === 'cadastrarBtn') {
+        event.preventDefault();
+        history.pushState({}, '', '/ip4y/web/cadastro'); // Atualiza a URL para '/cadastro'
+        loadContent(); // Carrega a página de cadastro
+    } 
+
     if (event.target.id === 'voltarBtn') {
         event.preventDefault();
-        if (window.location.pathname === '/' || window.location.pathname === '/index.html') {
-            history.pushState({}, '', '/'); // Atualiza a URL
-            loadContent(); // Carrega a página inicial
-        } else {
-            history.back(); // Use history.back() para voltar uma página
-        }
+        history.pushState({}, '', '/ip4y/web/'); // Atualiza a URL para '/'
+        loadContent(); // Carrega a página inicial
     }
+
+    if (event.target.id === 'listagemBtn') {
+        event.preventDefault();
+        history.pushState({}, '', '/ip4y/web/listagem'); // Atualiza a URL para '/listagem'
+        loadContent(); // Carrega a página de listagem
+    }  
 });
 
 
