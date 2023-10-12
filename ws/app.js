@@ -6,6 +6,10 @@ const Users = require('./models/User');
 app.use(express.json());
 app.use(cors());
 
+const bodyParser = require('body-parser');
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
 app.get("/", async (req, res) => {
     res.send("Página Inicial");
 })
@@ -15,9 +19,7 @@ app.post("/cadastrar", async (req, res) => {
         const dadosRecebidos = req.body;
         console.log(dadosRecebidos);
 
-        // Verificar se algum campo está vazio
-        if (
-            !dadosRecebidos.cpf ||
+        if (!dadosRecebidos.cpf ||
             !dadosRecebidos.nome ||
             !dadosRecebidos.sobrenome ||
             !dadosRecebidos.dataNascimento ||
@@ -35,18 +37,21 @@ app.post("/cadastrar", async (req, res) => {
                 return res.json({
                     erro: false,
                     mensagem: "Usuário cadastrado com sucesso!"
-                })
-            }).catch(() => {
+                });
+            })
+            .catch((error) => {
+                console.error("Erro ao criar usuário:", error);
                 return res.status(400).json({
                     erro: true,
                     mensagem: "Erro: Usuário não cadastrado!"
-                })
-            })
-
-        // res.json({ mensagem: 'Dados recebidos com sucesso' }); 
-
+                });
+            });
     } catch (error) {
-        res.status(400).json({ mensagem: 'Erro ao processar os dados' });
+        console.error("Erro geral na rota /cadastrar:", error);
+        return res.status(500).json({
+            erro: true,
+            mensagem: "Erro interno do servidor."
+        });
     }
 });
 

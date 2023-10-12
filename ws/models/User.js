@@ -10,7 +10,6 @@ const Users = db.define('tb_users', {
     },
     cpf: {
         type: Sequelize.STRING,
-        unique: true,
         allowNull: false,
     },
     nome: {
