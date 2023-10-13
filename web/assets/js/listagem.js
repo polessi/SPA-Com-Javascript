@@ -72,11 +72,11 @@ function abrirModalDeEdicao(cadastro) {
     document.getElementById('email').value = cadastro.email;
     document.getElementById('genero').value = cadastro.genero;
 
-    // Adicione um identificador ao botão "Salvar Alterações" para saber que se trata de uma edição
+    // Adiciona um identificador ao botão "Salvar Alterações" para saber que se trata de uma edição
     const botaoSalvar = document.getElementById('botaoSalvar');
     botaoSalvar.setAttribute('data-edit-id', cadastro.idUsers);
 
-    // Adicione um evento de clique ao botão "Salvar Alterações" para chamar a função de atualização
+    // Adiciona um evento de clique ao botão "Salvar Alterações" para chamar a função de atualização
     botaoSalvar.addEventListener('click', () => {
         const idUser = botaoSalvar.getAttribute('data-edit-id');
         const cpf = document.getElementById('cpf').value;
@@ -86,7 +86,7 @@ function abrirModalDeEdicao(cadastro) {
         const email = document.getElementById('email').value;
         const genero = document.getElementById('genero').value;
 
-        // Crie um objeto com os dados de atualização
+        // Cria um objeto com os dados de atualização
         const dadosDeAtualizacao = {
             cpf,
             nome,
@@ -101,9 +101,21 @@ function abrirModalDeEdicao(cadastro) {
     });
 }
 
-function abrirModalDeDelete(idUser) {
-    // Abra o modal de edição
+//Abrir modal delete
+function abrirModalDeDelete(cadastro) {
+
     $('#deleteModal').modal('show');
+
+    const botaoDeletar = document.getElementById('botaoDeletar');
+    botaoDeletar.setAttribute('data-delete-id', cadastro.idUsers);
+
+    // Adiciona um evento de clique ao botão "Salvar Alterações" para chamar a função de atualização
+    botaoDeletar.addEventListener('click', () => {
+        const idUser = botaoDeletar.getAttribute('data-delete-id');
+
+        // Chame a função de atualização
+        deletarDados(idUser);
+    });
 
 }
 
@@ -138,4 +150,30 @@ function alterarDados(userId, dadosDeAtualizacao) {
             console.error('Erro na solicitação para atualizar usuário:', error);
         });
 
+}
+
+//chamada da api para deletar os dados
+function deletarDados(userId) {
+    fetch(`http://localhost:8080/delatarCadastro/${userId}`, {
+        method: 'DELETE',
+    })
+        .then((response) => {
+            if (response.status === 204) {
+                // console.log('Usuário excluído com sucesso');
+
+                //Fecha o modal após excluir o cadastro.
+                $('#deleteModal').modal('hide');
+
+                // Atualize os dados na tabela
+                buscarCadastros();
+
+            } else if (response.status === 404) {
+                console.error('Usuário não encontrado');
+            } else {
+                console.error('Erro ao excluir o usuário');
+            }
+        })
+        .catch((error) => {
+            console.error('Erro na solicitação:', error);
+        });
 }
