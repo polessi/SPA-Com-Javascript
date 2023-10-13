@@ -22,13 +22,13 @@ function criarTabela(data) {
     const tabelaCadastros = document.getElementById('tabelaCadastros');
     const tbody = tabelaCadastros.getElementsByTagName('tbody')[0];
 
-    // Limpe a tabela removendo todo o conteúdo existente
+    // Limpar a tabela removendo todo o conteúdo existente
     tbody.innerHTML = '';
 
     data.forEach((item, index) => {
         const newRow = tbody.insertRow(index);
 
-        //Cria as linhas da tabela com os dados cadastrados
+        //Criar as linhas da tabela com os dados cadastrados
         newRow.insertCell(0).innerText = item.idUsers;
         newRow.insertCell(1).innerText = item.cpf;
         newRow.insertCell(2).innerText = item.nome;
@@ -37,31 +37,31 @@ function criarTabela(data) {
         newRow.insertCell(5).innerText = item.email;
         newRow.insertCell(6).innerText = item.genero;
 
-        // Cria um ícone "Editar"
+        // Criar um ícone "Editar"
         const editIcon = document.createElement('i');
         editIcon.className = 'fa fa-pencil-square-o text-primary cursor-pointer';
         editIcon.setAttribute('aria-hidden', 'true');
         editIcon.addEventListener('click', () => {
-            // Quando o ícone "Editar" é clicado, chame a função para abrir o modal de edição
+            // Quando o ícone "Editar" é clicado, chamar a função para abrir o modal de edição
             abrirModalDeEdicao(item);
         });
         newRow.insertCell(7).appendChild(editIcon)
 
-        // Cria um ícone "Deletar"
+        // Criar um ícone "Deletar"
         const deleteIcon = document.createElement('i');
         deleteIcon.className = 'fa fa-trash text-danger cursor-pointer';
         deleteIcon.setAttribute('aria-hidden', 'true');
         deleteIcon.addEventListener('click', () => {
-            // Quando o ícone "Deletar" é clicado, chame a função para abrir o modal de edição
+            // Quando o ícone "Deletar" é clicado, chamar a função para abrir o modal de edição
             abrirModalDeDelete(item);
         });
         newRow.insertCell(8).appendChild(deleteIcon)
     });
 }
 
-//Abrir modal editar
 function abrirModalDeEdicao(cadastro) {
-    // Abra o modal de edição
+    
+    // Abrir o modal de edição
     $('#editarModal').modal('show');
 
     // Preencha os campos do formulário de edição com os dados do cadastro
@@ -96,24 +96,26 @@ function abrirModalDeEdicao(cadastro) {
             genero
         };
 
-        // Chame a função de atualização
+        // Chamar a função de atualização
         alterarDados(idUser, dadosDeAtualizacao);
     });
 }
 
-//Abrir modal delete
-function abrirModalDeDelete(cadastro) {
 
+function abrirModalDeDelete(cadastro) {
+    
+    //Abrir modal delete
     $('#deleteModal').modal('show');
 
+    // Adiciona um identificador ao botão "Sim" para saber que se trata de um delete
     const botaoDeletar = document.getElementById('botaoDeletar');
     botaoDeletar.setAttribute('data-delete-id', cadastro.idUsers);
 
-    // Adiciona um evento de clique ao botão "Salvar Alterações" para chamar a função de atualização
+    // Adiciona um evento de clique ao botão "Sim" para chamar a função de delete
     botaoDeletar.addEventListener('click', () => {
         const idUser = botaoDeletar.getAttribute('data-delete-id');
 
-        // Chame a função de atualização
+        // Chamar a função de delete
         deletarDados(idUser);
     });
 
@@ -131,13 +133,13 @@ function alterarDados(userId, dadosDeAtualizacao) {
         .then(response => response.json())
         .then(data => {
             if (data.erro === false) {
-                // Feche o modal
+                // Fechar o modal
                 $('#editarModal').modal('hide');
 
-                // Atualize os dados na tabela
+                // Atualizar os dados na tabela
                 buscarCadastros();
 
-                // Limpe os campos do formulário
+                // Limpar os campos do formulário
                 document.getElementById('cpf').value = '';
                 document.getElementById('nome').value = '';
                 document.getElementById('sobrenome').value = '';
@@ -161,10 +163,10 @@ function deletarDados(userId) {
             if (response.status === 204) {
                 // console.log('Usuário excluído com sucesso');
 
-                //Fecha o modal após excluir o cadastro.
+                //Fechar o modal após excluir o cadastro.
                 $('#deleteModal').modal('hide');
 
-                // Atualize os dados na tabela
+                // Atualizar os dados na tabela
                 buscarCadastros();
 
             } else if (response.status === 404) {

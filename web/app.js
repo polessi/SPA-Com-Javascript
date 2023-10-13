@@ -61,7 +61,5 @@ document.addEventListener('click', (event) => {
     }  
 });
 
-
-
 window.addEventListener('popstate', loadContent);
 window.addEventListener('load', loadContent);

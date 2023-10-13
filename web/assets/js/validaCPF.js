@@ -22,7 +22,6 @@ function verificaCpf(cpf) {
     const verificador2 = calcularDigitoVerificador(cpfArray, 10);
 
     if (verificador1 === cpfArray[9] && verificador2 === cpfArray[10]) {
-        // document.getElementById('cpfStatus').textContent = 'CPF válido';
         document.getElementById('cpfStatus').style.display = 'none';
 
     } else {
