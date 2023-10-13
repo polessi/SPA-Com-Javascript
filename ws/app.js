@@ -6,12 +6,15 @@ const Users = require('./models/User');
 app.use(express.json());
 app.use(cors());
 
-const bodyParser = require('body-parser');
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-
-app.get("/", async (req, res) => {
-    res.send("Página Inicial");
+// Rota para buscar todos os cadastros
+app.get('/buscaCadastros', async (req, res) => {
+    try {
+        const users = await Users.findAll();
+        res.status(200).json(users);
+    } catch (error) {
+        console.error('Erro ao buscar cadastros:', error);
+        res.status(500).json({ erro: true, mensagem: 'Erro ao buscar cadastros' });
+    }
 })
 
 app.post("/cadastrar", async (req, res) => {

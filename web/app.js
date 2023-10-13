@@ -6,14 +6,14 @@ function loadContent() {
     const contentDiv = document.getElementById('root');
 
     if (path === '' || path === 'index.html') {
-        console.log('login');
-        loadHTML('pages/login/index.html', contentDiv);
+        loadHTML('pages/home/index.html', contentDiv);
+
     } else if (path === 'cadastro') {
-        console.log('cadastro');
         loadHTML('pages/cadastro/index.html', contentDiv);
+
     } else if (path === 'listagem') {
-        console.log('listagem');
         loadHTML('pages/listagem/index.html', contentDiv);
+        
     } else {
         contentDiv.innerHTML = '<h1>Página não encontrada</h1>';
     }
