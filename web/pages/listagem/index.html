@@ -1,0 +1,107 @@
+<div class="container">
+  <h1 class="mt-4 text-center">Lista de Cadastros</h1>
+  <div class="text-right">
+    <button type="button" class="btn btn-danger" id="voltarBtn">Voltar</button>
+  </div>
+  <table class="table mt-4" id="tabelaCadastros">
+    <thead class="thead-dark">
+      <tr>
+        <th>ID</th>
+        <th>CPF</th>
+        <th>Nome</th>
+        <th>Sobrenome</th>
+        <th>Data de Nascimento</th>
+        <th>Email</th>
+        <th>Gênero</th>
+        <th>Editar</th>
+        <th>Deletar</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Linhas da tabela serão adicionadas aqui -->
+    </tbody>
+  </table>
+</div>
+
+<!-- Modal de Edição -->
+<div class="modal fade" id="editarModal" tabindex="-1" aria-labelledby="editarModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editarModalLabel">Editar Cadastro</h5>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="cpf">CPF:</label>
+              <input type="text" class="form-control" name="cpf" id="cpf" placeholder="Digite seu CPF"
+                oninput="mascara(this)" onchange="verificaCpf(this.value)">
+              <div class="btn-danger" id="cpfStatus" style="color: white; display: none;"></div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="nome">Nome:</label>
+              <input type="text" class="form-control" name="nome" id="nome" placeholder="Digite seu nome">
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="sobrenome">Sobrenome:</label>
+              <input type="text" class="form-control" name="sobrenome" id="sobrenome"
+                placeholder="Digite seu sobrenome">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="dataNascimento">Data de Nascimento:</label>
+              <input type="date" class="form-control" name="dataNascimento" id="dataNascimento"
+                onblur="validateDateOfBirth()">
+              <div class="btn-danger" id="dtNascStatus" style="color: white; display: none;"></div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="email">Email:</label>
+              <input type="email" class="form-control" name="email" id="email" placeholder="Digite seu email"
+                onblur="validateEmail(this.value)">
+              <div class="btn-danger" id="emailStatus" style="color: white; display: none;"></div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="genero">Gênero:</label>
+              <select class="form-control" name="genero" id="genero">
+                <option value="">Selecione aqui...</option>
+                <option value="masculino">Masculino</option>
+                <option value="feminino">Feminino</option>
+                <option value="outro">Outro</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="botaoSalvar" data-edit-id="">Salvar Alterações</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-danger" id="deleteModalLabel">Deseja Realmente Excluir Este Cadastro?</h5>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" id="botaoDeletar" data-delete-id="">Sim</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Não, Fechar</button>
+      </div>
+    </div>
+  </div>
+</div>
