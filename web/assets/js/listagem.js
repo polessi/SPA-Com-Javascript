@@ -131,4 +131,5 @@ function alterarDados(userId, dadosDeAtualizacao) {
         .catch(error => {
             console.error('Erro na solicitação para atualizar usuário:', error);
         });
-}
+
+    }
