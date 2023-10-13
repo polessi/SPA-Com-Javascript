@@ -34,19 +34,20 @@ function criarTabela(data) {
         newRow.insertCell(5).innerText = item.email;
         newRow.insertCell(6).innerText = item.genero;
 
-        /// Cria um ícone "Editar"
+        // Cria um ícone "Editar"
         const editIcon = document.createElement('i');
-        editIcon.className = 'fa fa-pencil-square-o text-primary d-flex align-items-center'; // Use a classe 'd-flex' e 'align-items-center' para centralizar o texto verticalmente
+        editIcon.className = 'fa fa-pencil-square-o text-primary d-flex align-items-center cursor-pointer';
         editIcon.setAttribute('aria-hidden', 'true');
         editIcon.addEventListener('click', () => {
-            // Coloque o código para a ação de edição aqui
-            console.log('Editar', item.idUsers);
+            // Quando o ícone "Editar" é clicado, chame a função para abrir o modal de edição
+            abrirModalDeEdicao(item);
         });
         newRow.insertCell(7).appendChild(editIcon);
 
+
         // Cria um ícone "Deletar"
         const deleteIcon = document.createElement('i');
-        deleteIcon.className = 'fa fa-trash text-danger d-flex align-items-center'; // Use a classe 'd-flex' e 'align-items-center' para centralizar o texto verticalmente
+        deleteIcon.className = 'fa fa-trash text-danger';
         deleteIcon.setAttribute('aria-hidden', 'true');
         deleteIcon.addEventListener('click', () => {
             // Coloque o código para a ação de exclusão aqui
@@ -58,3 +59,19 @@ function criarTabela(data) {
     });
 }
 
+function abrirModalDeEdicao(cadastro) {
+    console.log(cadastro)
+    // Abra o modal de edição
+    $('#editarModal').modal('show');
+
+    // Preencha os campos do formulário de edição com os dados do cadastro
+    document.getElementById('cpf').value = cadastro.cpf;
+    document.getElementById('nome').value = cadastro.nome;
+    document.getElementById('sobrenome').value = cadastro.sobrenome;
+    document.getElementById('dataNascimento').value = cadastro.dataNascimento;
+    document.getElementById('email').value = cadastro.email;
+    document.getElementById('genero').value = cadastro.genero;
+
+    // Adicione um identificador ao botão "Salvar Alterações" para saber que se trata de uma edição
+    document.getElementById('botaoSalvar').setAttribute('data-edit-id', cadastro.idUsers);
+}
