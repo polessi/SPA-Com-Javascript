@@ -22,6 +22,9 @@ function criarTabela(data) {
     const tabelaCadastros = document.getElementById('tabelaCadastros');
     const tbody = tabelaCadastros.getElementsByTagName('tbody')[0];
 
+    // Limpe a tabela removendo todo o conteúdo existente
+    tbody.innerHTML = '';
+
     data.forEach((item, index) => {
         const newRow = tbody.insertRow(index);
 
@@ -42,8 +45,7 @@ function criarTabela(data) {
             // Quando o ícone "Editar" é clicado, chame a função para abrir o modal de edição
             abrirModalDeEdicao(item);
         });
-        newRow.insertCell(7).appendChild(editIcon);
-
+        newRow.insertCell(7).appendChild(editIcon)
 
         // Cria um ícone "Deletar"
         const deleteIcon = document.createElement('i');
@@ -53,14 +55,12 @@ function criarTabela(data) {
             // Coloque o código para a ação de exclusão aqui
             console.log('Deletar', item.idUsers);
         });
-        newRow.insertCell(8).appendChild(deleteIcon);
-
-
+        newRow.insertCell(8).appendChild(deleteIcon)
     });
 }
 
+//Abrir modal editar
 function abrirModalDeEdicao(cadastro) {
-    console.log(cadastro)
     // Abra o modal de edição
     $('#editarModal').modal('show');
 
@@ -73,5 +73,62 @@ function abrirModalDeEdicao(cadastro) {
     document.getElementById('genero').value = cadastro.genero;
 
     // Adicione um identificador ao botão "Salvar Alterações" para saber que se trata de uma edição
-    document.getElementById('botaoSalvar').setAttribute('data-edit-id', cadastro.idUsers);
+    const botaoSalvar = document.getElementById('botaoSalvar');
+    botaoSalvar.setAttribute('data-edit-id', cadastro.idUsers);
+
+    // Adicione um evento de clique ao botão "Salvar Alterações" para chamar a função de atualização
+    botaoSalvar.addEventListener('click', () => {
+        const idUser = botaoSalvar.getAttribute('data-edit-id');
+        const cpf = document.getElementById('cpf').value;
+        const nome = document.getElementById('nome').value;
+        const sobrenome = document.getElementById('sobrenome').value;
+        const dataNascimento = document.getElementById('dataNascimento').value;
+        const email = document.getElementById('email').value;
+        const genero = document.getElementById('genero').value;
+
+        // Crie um objeto com os dados de atualização
+        const dadosDeAtualizacao = {
+            cpf,
+            nome,
+            sobrenome,
+            dataNascimento,
+            email,
+            genero
+        };
+
+        // Chame a função de atualização
+        alterarDados(idUser, dadosDeAtualizacao);
+    });
+}
+
+//chamada da api para alterar os dados
+function alterarDados(userId, dadosDeAtualizacao) {
+    fetch(`http://localhost:8080/atualizar/${userId}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(dadosDeAtualizacao)
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.erro === false) {
+                // Feche o modal
+                $('#editarModal').modal('hide');
+
+                // Atualize os dados na tabela
+                buscarCadastros();
+
+                // Limpe os campos do formulário
+                document.getElementById('cpf').value = '';
+                document.getElementById('nome').value = '';
+                document.getElementById('sobrenome').value = '';
+                document.getElementById('dataNascimento').value = '';
+                document.getElementById('email').value = '';
+                document.getElementById('genero').value = '';
+            }
+        })
+        .catch(error => {
+            console.error('Erro na solicitação para atualizar usuário:', error);
+        });
 }

@@ -58,6 +58,43 @@ app.post("/cadastrar", async (req, res) => {
     }
 });
 
+app.put("/atualizar/:id", async (req, res) => {
+    try {
+        const userId = req.params.id;
+        const novosDados = req.body;
+
+        if (!userId) {
+            return res.status(400).json({
+                erro: true,
+                mensagem: "ID do usuário não fornecido."
+            });
+        }
+
+        if (!novosDados) {
+            return res.status(400).json({
+                erro: true,
+                mensagem: "Nenhum dado de atualização fornecido."
+            });
+        }
+
+        // Atualize os dados do usuário
+        await Users.update(novosDados, {
+            where: { idUsers: userId }
+        });
+
+        return res.json({
+            erro: false,
+            mensagem: "Dados do usuário atualizados com sucesso."
+        });
+    } catch (error) {
+        console.error("Erro geral na rota /atualizar:", error);
+        return res.status(500).json({
+            erro: true,
+            mensagem: "Erro interno do servidor."
+        });
+    }
+});
+
 app.listen(8080, () => {
     console.log("Servidor iniciado na porta 8080: http://localhost:8080");
 })
