@@ -95,6 +95,23 @@ app.put("/atualizar/:id", async (req, res) => {
     }
 });
 
+// Rota para excluir um usuário
+app.delete('/delatarCadastro/:id', async (req, res) => {
+    const userId = req.params.id;
+    try {
+        const user = await Users.findByPk(userId);
+        if (user) {
+            await user.destroy();
+            res.status(204).send();
+        } else {
+            res.status(404).json({ error: 'Usuário não encontrado' });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Erro ao excluir o usuário' });
+    }
+});
+
 app.listen(8080, () => {
     console.log("Servidor iniciado na porta 8080: http://localhost:8080");
 })
