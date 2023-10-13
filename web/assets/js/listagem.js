@@ -39,7 +39,7 @@ function criarTabela(data) {
 
         // Cria um ícone "Editar"
         const editIcon = document.createElement('i');
-        editIcon.className = 'fa fa-pencil-square-o text-primary d-flex align-items-center cursor-pointer';
+        editIcon.className = 'fa fa-pencil-square-o text-primary cursor-pointer';
         editIcon.setAttribute('aria-hidden', 'true');
         editIcon.addEventListener('click', () => {
             // Quando o ícone "Editar" é clicado, chame a função para abrir o modal de edição
@@ -49,11 +49,11 @@ function criarTabela(data) {
 
         // Cria um ícone "Deletar"
         const deleteIcon = document.createElement('i');
-        deleteIcon.className = 'fa fa-trash text-danger';
+        deleteIcon.className = 'fa fa-trash text-danger cursor-pointer';
         deleteIcon.setAttribute('aria-hidden', 'true');
         deleteIcon.addEventListener('click', () => {
-            // Coloque o código para a ação de exclusão aqui
-            console.log('Deletar', item.idUsers);
+            // Quando o ícone "Deletar" é clicado, chame a função para abrir o modal de edição
+            abrirModalDeDelete(item);
         });
         newRow.insertCell(8).appendChild(deleteIcon)
     });
@@ -101,6 +101,12 @@ function abrirModalDeEdicao(cadastro) {
     });
 }
 
+function abrirModalDeDelete(idUser) {
+    // Abra o modal de edição
+    $('#deleteModal').modal('show');
+
+}
+
 //chamada da api para alterar os dados
 function alterarDados(userId, dadosDeAtualizacao) {
     fetch(`http://localhost:8080/atualizar/${userId}`, {
@@ -132,4 +138,4 @@ function alterarDados(userId, dadosDeAtualizacao) {
             console.error('Erro na solicitação para atualizar usuário:', error);
         });
 
-    }
+}
