@@ -1,7 +1,7 @@
 # SPA-Com-Javascript
 # Sistema de Cadastro de Usuário com Listagem
 
-Este é um projeto de Single Page Application (SPA) de cadastros e listagem de cadastros feito com JavaScript.
+Este é um projeto de Single Page Application (SPA) de cadastros e listagem de cadastros feito com JavaScript e NodeJs.
 
 ## Tecnologias Utilizadas
 
